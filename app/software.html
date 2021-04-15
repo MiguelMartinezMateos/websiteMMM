@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2Flogo_small_icon.png?v=1616193835414"
+    />
+    <title>MMM</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/prism.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+TC&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <header class="header">
+    <nav class="navbar navbar-light" style="background-color: #2a2b2c">
+      <img
+        class="block"
+        width="170"
+        height="40"
+        src="https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2Flogo_small_recortado.png?v=1616193212522"
+      />
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="hardware.html">Hardware</a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            style="color:#7ca1b6"
+            href="#"
+            >Software</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="otrosproyectos.html">Otros proyectos</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <body class="body-script">
+    <main class="main">
+      <div class="container-script">
+        <h1 class="h1-script">
+          Cómo crear cualquier juego con Arduino
+        </h1>
+        <hr />
+        <h2 class="h2-script">
+          En este artículo vamos a aprender cómo desarrollar cualquier juego con
+          Arduino. En mi caso yo he creado un juego basado en el clásico Super
+          Mario Bros, pero la dinámica del desarrollo es aplicable a cualquier
+          juego ya que explicaré como crear personajes, como hacer que los
+          personajes se muevan y como desarrollar diferentes acciones con el
+          tiempo.
+        </h2>
+        <hr />
+        <p>
+          En el siguiente vídeo se puede ver el resultado obtenido siguiendo
+          este artículo paso a paso.
+        </p>
+        <!-- modificar el iframe para que en el movil no descuadre -->
+        <div class="container-img-text">
+          <iframe
+            class="video"
+            src="https://www.youtube.com/embed/D_wUO8dLIj0"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          <p>
+            <b>La dinámica de mi juego es la siguiente:</b>
+
+            <br /><br />- El objetivo es esquivar el mayor número de enemigos
+            posible. <br />- Habrá dos tipos de enemigos unos que vendrán a la
+            altura del suelo y otros que irán elevados, por lo tanto se podrá
+            saltar y agacharse para evitarlos. <br />- Habrá además unas setas
+            que al cogerlas aumentarán el número de vidas en uno hasta un máximo
+            de cinco vidas. <br />- Contaremos con un marcador de puntuación que
+            se incrementará en uno cada vez que esquivemos con éxito a un
+            enemigo.
+          </p>
+        </div>
+        <br />
+        <p>
+          <b>Además de esto:</b>
+          <br />
+          <br />- Al iniciar el juego habrá una pantalla inicial de
+          presentación. <br />- Al finalizar la partida aparecerá una pantalla
+          de GAME OVER en la que se nos indicará la puntuación alcanzada.
+          <br />- Contaremos también con música y efectos de sonido.
+        </p>        
+      </div>
+    </main>
+    <br>
+    <div style="background-color: #2a2b2c">
+      <br>
+      <div style="margin-left: 8%">
+        
+        <b style="color:#aae1ff">
+          Pasos a seguir para desarrollar cualquier juego:
+        </b>
+        <a class="nav-link" href="#1" style="color:#aae1ff;   margin-left:8%"
+          >1. Creación de personajes</a
+        >
+        <a class="nav-link" href="#2" style="color:#aae1ff;   margin-left:8%"
+          >2. Pines I/O</a
+        >
+        <a class="nav-link" href="#3" style="color:#aae1ff;   margin-left:8%"
+          >3. Movimiento</a
+        >
+        <a class="nav-link" href="#4" style="color:#aae1ff;   margin-left:8%"
+          >4. Detección de choques, vida y puntuación</a
+        >
+        <a class="nav-link" href="#5" style="color:#aae1ff;   margin-left:8%"
+          >5. Variaciones e incrementaciones temporales</a
+        >
+        <a class="nav-link" href="#6" style="color:#aae1ff;   margin-left:8%"
+          >6. Pantallas de inicio y GAME OVER</a
+        >
+        <a class="nav-link" href="#7" style="color:#aae1ff;   margin-left:8%"
+          >7. Música y efectos de sonido</a
+        ><br>
+      </div>
+      </div>
+
+      <main class="main">
+        <div class="container-script">
+        
+        <!--  1 CREACION DE PERSONAJES  -->
+
+        <b style="  font-size: 2rem;" id="1">1. Creación de personajes</b
+        ><br /><br />
+        <p>
+          Para crear un personaje podremos hacer uso del Excel que he
+          desarrollado:
+          <a
+            href="https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2FOLED_CREATE.xlsx?v=1617479006403"
+            >CreacionDePersonajes.xlsx</a
+          >
+        </p>
+        <p>
+          Con este documento podremos crear personajes y dibujos para nuestro
+          juego, pero está diseñado para un tamaño concreto, si se desa otro
+          tamaño basta con entender el funcionamiento de un array explicado a
+          continuación y adaptar el documento.
+        </p>
+        <p>
+          Al hacer uso del excel, rellenaremos las casillas dentro del recuadro
+          negro con unos y ceros, este cambiará autoamaticamente el color del
+          recuadro de forma que si ponemos un 0 se pintara verde y si ponemos un
+          1 se puntara gris, así podremos visualizar el correcto desarrollo y
+          evitar errores.
+        </p>
+        <b>Importar las librerías Adafruit_SSD1306 y Adafruit-GFX-FreeSans:</b
+        ><br /><br />
+        <p>
+          Las librerías de pueden descargar desde los siguientes enlaces:<br />
+          <a href="https://github.com/adafruit/Adafruit_SSD1306"
+            >Ir a GitHub de la librería Adafruit</a
+          >
+          <br />
+          <a
+            href="https://github.com/adafruit/Adafruit-GFX-Library/blob/master/Fonts/FreeSans9pt7b.h"
+            >Ir a GitHub de la librería GFX-FreeSans</a
+          >
+        </p>
+        <br />
+        <p>
+          Dentro del propio enlace en el documento README.md de cada una está
+          explicado como instalar ambas librerías.
+        </p>
+
+        <b>Codificación del personaje:</b><br /><br />
+        <p>
+          En mi caso he optado por utilizar el personaje de la imagen siguiente:
+        </p>
+
+        <div class="container-img-text">
+          <p>
+            <img
+              style="width:25%; max-width:250px;"
+              src="https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2Fmario1.PNG?v=1617481225773"
+            />
+            1. A la hora de elegir el personaje que vamos a desarrollar, hay que
+            tener en cuenta que debe tener únicamente dos colores (encendido y
+            apagado).
+            <br />
+            2. Una vez elegido el personaje vamos a sustituir los cuadros negros
+            por un 1 y los blancos por un 0 de forma que:<br />
+            La primera fila equivaldría a “0000000111100000”<br />
+            La segunda fila equivaldría a “0000011000010000”<br />...
+            <br />
+            3. A continuación agrupamos en grupos de 8 bits y los convertimos a
+            hexadecimal, en el codigo deberá aparecer con 0x delante para que el
+            microprocesador del arduino lo interprete correctamente y separados
+            por una coma, de forma que las filas anteriores quedarían de la
+            siguiente forma:<br />
+            00000001|11100000 se convierte en 0x1, 0xE0,<br />
+            00000110|00010000 se convierte en 0x6, 0x10,<br />
+            ...
+            <br />
+            4. Concatenando todas las filas tenemos el código correspondiente al
+            dibujo: 0x1, 0xE0, 0x6, 0x10,…
+            <br /><br />
+            Este proceso es el que sigue el excel.
+          </p>
+        </div>
+        <br />
+        <b>Definición del array:</b><br /><br />
+        <p>
+          Definimos la matriz de caracteres, yo en mi caso la he llamado “mario”
+          el código entre llaves debe ser el del punto anterior:<br /><br />
+        </p>
+        <pre><code class="language-cpp line-numbers">
+ const unsigned char PROGMEM mario[] = {
+    0x1,0xE0, 0x6, 0x10, 0x8, 0x10...
+  };
+ </code></pre>
+        <br />
+        <b>Mostrar en el display:</b><br /><br />
+        Para mostrar el dibujo en pantalla mediante la librería Adafruit haremos
+        uso del siguiente método:<br /><br />
+
+        <pre><code class="language-cpp line-numbers">
+void drawBitmap(int16_t x, int16_t y, uint8_t *bitmap, int16_t w, int16_t h, uint16_t color);
+ </code></pre>
+        <br />
+        <p>
+          Donde x e y son las coordenadas donde queremos que se empiece a
+          dibujar el personaje (donde se colocará la esquina superior
+          izquierda), *bitmap es un puntero al array que contiene el código del
+          personaje, “mario” en mi caso, w y h son el ancho y el alto del
+          personaje, 16 x 28 pixeles para nuestro caso, y el color para este
+          tipo de display solo pude ser BLACK o WHITE, que también están
+          predefinidos como 0 y 1:
+        </p>
+        <br />
+        <a style="color:red">Nota:&nbsp;&nbsp;</a
+        ><a style="color:#5b5b5b"
+          >El color blanco (0), se puede usar encima del dibujo para taparlo. </a
+        ><br />
+        Como se ha visto en el vídeo de demostración, yo quiero dibujar a mario
+        en la esquina inferior izquierda, por tanto la separación horizontal es
+        nula, coordenada x=0 y la vertical debe ser 64-28 bits que es el alto de
+        la pantalla menos la altura del personaje. Tenemos entonces como
+        resultado la línea siguiente:<br /><br />
+
+        <pre><code class="language-cpp line-numbers">
+  display.drawBitmap(0, 36, mario, 16, 28, 1);</code></pre>
+        <br />
+        Siguiendo estos pasos yo he creado los siguientes caracteres:<br />
+        - "mario1", Mario en posición normal.<br />
+        - "mario2", muy similar al anterior pero ligeramente modificado para ir
+        alternandolos y generar sensación de que Mario esta corriendo.<br />
+        - "mariobend", para agacharse.<br />
+        - "mariojump", para los saltos.<br />
+        - "mashroom", la seta que nos añade uno de vida.<br />
+        - "enemie", enemigos terrestres.<br />
+        - "misile", enemigos aéreos.<br /><br /><br />
+       
+        
+        
+        <!--  2 BOTONES  -->
+        <hr />
+        <b style="  font-size: 2rem;" id="2">2. Pines I/O</b><br /><br />
+        <p>
+          El uso de botones consta de dos simples partes:<br />
+          <b>- Definición de pines.</b><br>
+        Las siguientes líneas descritas en el setup sirven para definir los pines 3, 8 y 11 como 
+            entradas y el pin 9, conectado al buzzer, como salida del arduino.<br />
+        <pre><code class="language-cpp line-numbers">
+            pinMode(3, INPUT_PULLUP);
+            pinMode(8, INPUT_PULLUP);
+            pinMode(11, INPUT_PULLUP);
+            pinMode(9, OUTPUT);
+        </code></pre>
+        <br />
+         <b>- Detección.</b><br>
+        Esta parte en nuestro caso se describe en el interior del loop para garantizar que se compruebe periódicamente la pulsación de los botones. 
+        La estructura básica es la siguiente:
+        <pre><code class="language-cpp line-numbers">
+            if (digitalRead(11) == 0) {
+              --code--
+            }
+        </code></pre>
+        En este ejemplo se detecta una pulsación en el botón conectado al pin 11 del arduino y la línea --code-- habría que sustituirla por el método que se ejecutaría al detectar la pulsación.
+         De manera análoga se define la detección de los demás pines de entrada.<br>
+        El buzzer sin embargo se define dentro de los métodos encargados de generar la melodia y los efectos de sonidos de la siguiente forma:
+        <pre><code class="language-cpp line-numbers">
+          tone(--buzzerPin--, --note--, --noteDuration--);
+        </code></pre>
+        El método tone, nos permite generar un sonido en el buzzer conectado al pin --buzzerPin--, en nuestro caso el 9, de duración --noteDuration-- y --note-- define la frecuencia de la nota en cuestión. Estas notas se pueden encontrar en el siguiente enlace:
+        <a href="https://juegosrobotica.es/musica-con-arduino/"
+            >Notas arduino</a>
+        </p><br>
+      <p>
+              Esta parte se verá mas a fondo en el siguiente punto.
+      </p>
+        
+        <!--  3 MOVIMIENTO  -->
+        <hr />
+        <b style="  font-size: 2rem;" id="3">3. Movimiento</b><br /><br />
+        <p>
+          En este punto aprenderemos a crear movimiento de imágenes, en mi caso
+          necesito dos tipos de movimiento:<br />
+          - Uno que permita mover el personaje principal para agacharse, saltar
+          y generar sensación de estar corriendo.<br />
+          - Otro que haga el movimiento de los enemigos de derecha a izquierda.
+          <br /><br />
+          Para poder generar estos dos movimientos lo que haremos es borrar la
+          pantalla a cada iteración del bucle loop, y dentro de este volveremos
+          a dibujar por pantalla el personaje en su posición deseada, de tal
+          manera que cuando saltemos pasaremos de dibujar el carácter
+          "mariojump" en una coordenada "y" superior a la usada para representar
+          "mario1" y "mario2". Para la lectura de los botones usaremos un lock
+          ("block_buttons") que limite la duración del salto, sin este al pulsar
+          el botón de salto se quedaría siempre en el aire:
+        </p>
+        <pre><code class="language-cpp line-numbers">
+          if (block_buttons == 0){
+            if (digitalRead(11) == 0){ 
+              agachado = jumpduration;
+              block_buttons = 1; 
+            }
+          };
+          </code></pre>
+        <br />
+        <p>
+          Como vemos, al bloquear los botones, este método solo se ejecutará una
+          vez.<br />
+          Con la variable "jumpduration" regularemos la duración del salto, esta
+          toma un valor inicial y se va decrementando de uno en uno a cada
+          iteración de loop y cuando alcanza el valor 0 se desbloquea
+          "block_buttons" para que se pueda leer de nuevo la pulsación del
+          botón, de esta forma controlaremos el movimiento, dibujando "mario1"
+          cuando "jumpduration" tiene su valor máximo y su valor mínimo y
+          "mariojump" en el resto. <br />Además, usaremos una variable state
+          para registrar el estado en el que estemos, que será de tipo int y
+          valdrá 1 cuando estemos en la posición más alta el salto, 0 cuando
+          estemos en reposo y 2 cuando estemos agachados, esto nos servirá mas
+          adelante para identificar si nos hemos chocado con algún objetivo.<br />
+        </p>
+
+        <pre><code class="language-cpp line-numbers">
+            if (saltar &gt 0 && block_buttons) {
+              if (saltar &gt (jumpduration - 1)) {
+                display.drawBitmap(0, 30, mario_jump, 16, 28, 1);
+                tone(9, jumpsound, 10);
+            } else if (saltar &gt 1) {
+              display.drawBitmap(0, 18, mario_jump, 16, 28, 1);
+              state = 1;
+            }
+            else {
+              display.drawBitmap(0, 30, mario_jump, 16, 28, 1);
+            }
+              saltar--;
+            };
+          </code></pre>
+        <br />
+        <a style="color:red">Nota:&nbsp;&nbsp;</a
+        ><a style="color:#5b5b5b"
+          >Si se desease hacer que el personaje principal pueda moverse
+          libremente por el display, habría que hacer un proceso similar pero en
+          la coordenada x pondríamos una variable que se modifique en función
+          del uso de un botón. </a
+        ><br />
+        <br />
+
+        <p>
+          Los enemigos los iremos representando en una posición "y" fija y una
+          posición "x" ("enemie1_x" y "enemie2_x") que se irá decrementando
+          desde un valor mayor que 128 (ya que este es el máximo tamaño de la
+          pantalla y no queremos que se vea aparecer de golpe sino que se
+          introduzca desde fuera) hasta una posición menor que -20 ya que 20 es
+          el ancho del enemigo que más ocupa ("misile").<br />
+          Cuando se alcance la última posición, se debe reiniciar el valor de
+          "enemie1_x" y "enemie2_x".<br />
+          <a style="color:red">Nota:&nbsp;&nbsp;</a
+          ><a style="color:#5b5b5b"
+            >Se han usado dos posiciones x ("enemie1_x" y "enemie2_x") para que
+            puedan coincidir dos enemigos simultáneamente en la pantalla.</a
+          ><br />
+        </p>
+        <pre><code class="language-cpp line-numbers">
+               ///////////dibujar enemigos/////////////
+
+    if (lock == 0) {
+      rando = random(0, 2); // 50% 0, 50% 1
+      lock = 1;
+    }
+    if (rando == 0) {
+      display.drawBitmap(enemie1_x, 30, misile, 19, 14, 1);
+
+    } else {
+      display.drawBitmap(enemie1_x, 47, enemie, 17, 17, 1);
+    }
+    if (enemie1_x &lt = -30) { //not so big to be displayed the change,
+      lock = 0;              //and not so small because is not changing 1 by 1 and could not be raised.
+      enemie1_x = 200;
+    }
+    enemie1_x = enemie1_x + enem_vel;
+
+    ////////////////segundo enemigo/////////////
+    if (lock2 == 0) {
+      rando2 = random(0, 13); //from 0 to 12
+      lock2 = 1;
+    }
+    if (rando2 &gt 9) {
+      display.drawBitmap(enemie2_x, 48, mushroom, 19, 16, 1);
+    } else if (rando2 &lt 5) {
+      display.drawBitmap(enemie2_x, 30, misile, 19, 14, 1);
+    }
+    else {
+      display.drawBitmap(enemie2_x, 47, enemie, 17, 17, 1);
+    }
+    if (enemie2_x &lt= -30) {
+      lock2 = 0;
+      enemie2_x = 200;
+    }
+    enemie2_x = enemie2_x + enem_vel;
+          </code></pre>
+        <br />
+        <p>
+          Con esto estamos generando dos enemigos, el primero de ellos es
+          "enemie" en la mitad de los casos y "misile" en la otra mitad,
+          dependiendo del valor de "rando1", mientras que el segundo es "misile"
+          si "rando2" toma un valor entre 0 y 4 (el 38,46% de las veces),
+          "mushroom" si toma un valor entre 10 y 12 (un 23,1% de las veces) y
+          "enemie" en el resto de casos (38,46% de las veces).
+          <br />Desbloqueamos "lock" y "lock2" cuando su respectivo personaje se
+          encuentre fuera de pantalla (por ejemplo: enemie1_x &lt= -30)
+        </p>
+        <br />
+
+        <!-- 3 DETECCIÓN DE CHOQUES (vida y puntuación) -->
+
+        <hr />
+        <b style="  font-size: 2rem;" id="4"
+          >4. Detección de choques, vida y puntuación:</b
+        ><br /><br />
+        <p>
+          En este punto se va a desarrollar la detección de choques pero su
+          utilidad va más allá, también se puede usar para limitar el espacio de
+          movimiento en un juego con movilidad ilimitada (para no salirse de la
+          pantalla):
+          <br />
+          Esta parte es bastante sencilla en nuestro caso, nosotros vamos a
+          detectar el choque en función del valor de "posicion" y de la
+          coordenada x de "enemie1_x" y "enemie2_x", pero en juegos de movilidad
+          ilimitada donde puedes mover a tu personaje por todo el display, se
+          suele hacer comprando el valor de la posición x del personaje
+          principal y la de los enemigos (explicado más adelante).<br />
+          En el siguiente código se muestra la comprobación de colisión para el
+          primer enemigo:
+        </p>
+
+        <pre><code class="language-cpp line-numbers">
+
+           if ((enemie1_x &lt 10) && (enemie1_x &gt -23) && locklives == 0) {
+      if (((state == 2 || state == 0) && rando == 1) || ((state == 1 || state == 0) && rando == 0)) {
+        lives--;
+        locklives = 1;
+        tone(9, crashsound1, 100);
+        delay(100);
+        tone(9, crashsound2, 300);
+      } else if (lockscore == 0) {
+        score++;
+        lockscore = 1;
+      }
+    }
+          </code></pre>
+        <br />
+
+        <p>
+          Las colisiones dependen de tres variables: el tipo de enemigo
+          (determinado por rando), la posición del enemigo (si está entre 10 y
+          -23 se encuentra en la posición donde puede haber colisón) y el estado
+          en el que nos encontremos (saltando, agachado o normal).<br />
+          Por ejemplo en el caso de estar saltando (state==1), que venga un
+          enemigo de tipo "misile" (rando1==0) y que el enemigo se encuentre en
+          la zona de choque (enemie1_x entre 10 y -23) se producirá un choque y
+          por tanto se decrementará "lives" .
+          <br />El cerrojo "locklives" nos sevirá para evitar que se resten
+          muchas vidas de golpe.<br />
+          Las modificación de las variables score y lives se verá en el punto 5.
+        </p>
+        <br /><br />
+
+        <b>Limitación del movimiento:</b><br /><br />
+        <p>
+          Si se desease limitar el movimiento de algún carácter, por ejemplo en
+          caso de que se pueda mover de manera horizontal, basta con hacer un
+          código similar al siguiente en el que si rebasamos alguno de los
+          límites de la pantalla mantenemos su coordenada en el último valor
+          posible.
+        </p>
+
+        <pre><code class="language-cpp line-numbers">
+
+          if (personaje_x &lt 0) {
+            enemie2_x = 0;
+          } else if (personaje_x &gt 128-anchopersonaje){
+            enemie2_x = 128-anchopersonaje;
+          }
+          enemie2_x = enemie2_x + enem_vel;
+          </code></pre>
+        <br />
+
+        <p>
+          ("personaje_x" representa la coordenada x del personaje principal y
+          anchopersonaje" representa el espacio que ocupa este en la coordenada
+          x.)
+        </p>
+        <br />
+
+        <!-- 5 Variaciones e incrementaciones temporales -->
+
+        <hr />
+        <b style="  font-size: 2rem;" id="5"
+          >5. Variaciones e incrementaciones temporales:</b
+        ><br /><br />
+        <p>
+          Esta parte es muy sencilla y nos permitirá realizar acciones
+          periódicamente por ejemplo alterar la dificultad del juego con el
+          tiempo.<br />
+          En las siguientes líneas de código podremos ver la estructura a
+          utilizar:
+        </p>
+
+        <pre><code class="language-cpp line-numbers">
+    current_time = millis();
+    if (((current_time - aux_time) &gt --period--)) {
+      aux_time = current_time;
+      --action--;
+    }
+          </code></pre>
+        <br />
+        <p>
+          Donde --period-- se debe sustituir con el periodo tras el cual se
+          realiza la acción en milisegundos y --action-- por la acción en sí.
+        </p>
+        <br />
+        <!-- 6 Pantallas de inicio y GAME OVER -->
+
+        <hr />
+        <b style="  font-size: 2rem;" id="6"
+          >6. Pantallas de inicio y GAME OVER:</b
+        ><br /><br />
+        <b>Pantalla de inicio:</b><br /><br />
+        <p>
+          El contenido de esta pantalla se describe en el setup y consta de tres partes:
+          <br><br>-Dibujo:<br>
+          De manera similar al apartado 1 se define una imagen de gran tamaño, en nuestro caso de 64x64 píxeles, y se puede crear con el excel del punto 1:
+           <a
+            href="https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2FOLED_CREATE.xlsx?v=1617479006403"
+            >CreacionDePersonajes.xlsx</a
+          >
+          <br><br>-Texto:<br />
+          
+          LPara cambiar la tipografía del texto será necesario instalar la librería Fonts/FreeSans9pt7b de Adafruit-GFX en el siguiente enlace:<br />
+          <a href="https://github.com/adafruit/Adafruit-GFX-Library"
+            >Ir a GitHub de la librería Fonts/FreeSans9pt7b</a
+          >
+          <br />
+          
+          La creación de texto se consigue con una serie de instrucciones:<br>
+          <pre><code class="language-cpp line-numbers">
+              display.setTextSize(0);
+              display.setFont(&FreeSans9pt7b);
+              display.setTextColor(WHITE);
+              display.setCursor(70, 0);
+              display.println("ARDUGAME");
+          </code></pre><br>
+      El primer método sirve para establecer el tamaño del texto, el segundo para cambiar la tipografía por defecto por una de las 
+      de la librería GFX, el siguiente nos permite establecer el color, en el caso de este display BLACK se utiliza para apagado y WHITE para encendido, el 
+      método setCursor nos permite localizarnos en el punto donde vamos a empezar a escribir y con println("...") imprimimos el texto deseado entre comillas.
+
+          <br><br>-Música:<br />
+          Se verá en el punto siguiente.
+        </p>
+            <b>Pantalla de GAME OVER:</b><br /><br />
+
+        <p>
+          El código del bucle loop se basa en una comprobación inicial, Esta
+          pantalla debe aparecer cuando el número de vidas es igual a 0 dentro
+          del bucle loop:
+        </p>
+
+        <pre><code class="language-cpp line-numbers">
+          loop(){
+            if(dead==0){
+            .
+            .
+            .
+            if (lives == 0) {
+              delay(500);
+              sing(1);
+              dead = 1;
+            }
+          }
+          if (dead == 1) {
+            display.clearDisplay();
+            display.setTextSize(0);
+            display.setFont(&FreeSans9pt7b);
+            display.setCursor(7, 25);
+            display.println("GAME OVER");
+    
+            display.setFont();
+            display.setCursor(37, 36);
+            display.print("Score: ");
+            display.setCursor(73, 36);
+            display.print(score);
+
+            display.setCursor(0, 54);
+            display.print("Press C to play again");
+
+
+            display.display();
+            if (digitalRead(12) == 0)
+            {
+              reinicio();
+            }
+          }
+        }
+          </code></pre>
+        <br />
+        <p>
+          Donde --period-- se debe sustituir con el periodo tras el cual se
+          realiza la acción en milisegundos y --action-- por la acción en sí.
+        </p>
+
+        <!-- limite del texto-->
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <p style="text-align:center">
+          github @MiguelMartinezMateos
+        </p>
+      </div>
+    </footer>
+    <script src="prism.js"></script>
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+/* CSS files add styling rules to your content */
+.header {
+  /*  PARA UN HEADER FIXED, PERO HAY QUE CAMBAIR MUCHAS COSAS*/
+  left: 0;
+  top: 0;
+  right: 0;
+}
+
+@media screen and (min-width: 515px) {
+  header {
+    position: fixed;
+    top: 0px;
+
+    /*display:none;*/
+  }
+}
+h2{
+    text-align: justify;
+}
+h1{
+  text-align: justify;
+}
+a{
+  text-align: justify;
+}
+b{
+  text-align: justify;
+}
+p{
+  text-align: justify;
+}
+.header-index {
+  /*  PARA UN HEADER FIXED, PERO HAY QUE CAMBAIR MUCHAS COSAS*/
+  /*position: fixed;*/
+  left: 0;
+  top: 0;
+  right: 0;
+}
+.main {
+  padding-top: 5rem;
+}
+.button {
+  background-color: #aae1ff;
+}
+.button:hover {
+  /* ARREGLAR, NO FUNCIONA*/
+  transition: all 0.3s linear;
+  background-color: #white;
+}
+
+.body-script {
+  /*background-color: #;*/
+  font-family: georgia, times, serif;
+  color: #333;
+  font-size: 1.2rem;
+  line-height: 1.5em;
+}
+.body-index {
+  font-family: georgia, times, serif;
+  font-size: 1.2rem;
+  line-height: 1.5em;
+}
+.h1-script {
+  padding-top: 2rem;
+  font-size: 3rem;
+  line-height: 1.3em;
+}
+.h2-script {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  font-size: 1.5rem;
+  line-height: 1.3em;
+}
+
+.container-script {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.cover {
+  height: 350px;
+  background-image: url(https://cdn.glitch.com/d22cc8b8-e367-4170-9c12-5675934926f9%2Fmarilia-castelli-wCVNhNnI_2s-unsplash.jpg?v=1616078008144);
+  background-position: center;
+  background-size: cover;
+  background-color: white;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: darken;
+}
+.cover-small {
+  height: 200px;
+  background-blend-mode: normal;
+}
+
+
+.card {
+  border: 0 !important;
+  box-shadow: 0 4px 6px -1px rgtb(0, 0, 0, 0.06);
+}
+.card-title {
+  min-height: 3rem;
+}
+.card-text {
+  height: 7rem;
+}
+.list-group-item-action {
+  margin-bottom: 1rem;
+}
+
+.list-group-item-action-zoom:hover {
+  transition: all 0.4s;
+  transform: scale(1.1);
+  background-color: #edf3f3;
+}
+
+.normal {
+  text-align: center;
+  margin: 5%;
+}
+.nav-link {
+  color: #aae1ff;
+}
+.nav-link:hover {
+  transition: all 0.3s linear;
+  color: #7ca1b6;
+}
+.nav {
+  margin-right: 5%;
+}
+
+.footer {
+  /*pie de pagina */
+  background-color: #edf3f3;
+  padding: 3rem 0;
+  text-align: center;
+  margin-top: 3rem;
+}
+.container-img-text {
+
+}
+
+.container-img-text img, iframe {
+  float: left;
+  margin-top: 0rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+/*@media screen and (min-width: 550px) {
+  container-img-text iframe {
+    
+  width: 550;
+  height: 300;
+  margin-top: 0rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;  
+  }
+}*/
+.video{
+  width:50%;
+  max-width:500px;
+  height: 270px;/*SOLUCIONAR*/
+}
+
+.img-code{
+  align: center;
+  width: 40%;
+  min-width: 350px;
+  max-width: 450px;
+
+}
+
+
+
+
+/*  PROYECTOS ALEATORIOS EN HORIZONTAL
+
+.container-tira-proyectos .card{
+  width:400px;
+  flex-shrink:0;
+   margin-right:1rem;
+  
+}
+.container-tira-proyectos{
+  display:flex;
+  flex-direction:row;
+}
+.tira-proyectos{
+  overflow-x:scroll;
+  padding-top:1rem;
+  padding-buttom:1rem;
+}
+
+*/
